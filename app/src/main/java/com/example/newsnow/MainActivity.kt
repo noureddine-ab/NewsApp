@@ -39,8 +39,9 @@ class MainActivity : ComponentActivity() {
                             fontSize = 25.sp,
                             fontFamily = FontFamily.Serif
                         )
+                        HomePage(NewsViewModel)
                     }
-                    HomePage(NewsViewModel)
+
                 }
             }
         }
