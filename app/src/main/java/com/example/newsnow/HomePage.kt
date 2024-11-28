@@ -70,7 +70,7 @@ fun ArticleItem(article: Article,navController: NavHostController){
         modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         onClick = {
-            navController.navigate(NewsArticleScreen)
+            navController.navigate(NewsArticleScreen(article.url))
         }
     ) {
         Row(

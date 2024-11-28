@@ -7,4 +7,6 @@ object HomePageScreen
 
 
 @Serializable
-object NewsArticleScreen
+data class NewsArticleScreen(
+    val url : String
+)
