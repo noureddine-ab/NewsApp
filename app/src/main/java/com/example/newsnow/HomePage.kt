@@ -43,7 +43,7 @@ import coil.compose.AsyncImage
 import com.kwabenaberko.newsapilib.models.Article
 
 @Composable
-fun HomePage(NewsViewModel: NewsViewModel, navController: NavHostController){
+fun HomePage(NewsViewModel: NewsViewModel, navController: NavHostController) {
     val articles by NewsViewModel.articles.observeAsState(emptyList())
 
     Column(
@@ -54,8 +54,8 @@ fun HomePage(NewsViewModel: NewsViewModel, navController: NavHostController){
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(articles){article->
-                ArticleItem(article,navController)
+            items(articles) { article ->
+                ArticleItem(article, navController)
 
             }
         }
@@ -63,45 +63,54 @@ fun HomePage(NewsViewModel: NewsViewModel, navController: NavHostController){
 }
 
 
-
 @Composable
-fun ArticleItem(article: Article,navController: NavHostController){
-    Card(
-        modifier = Modifier.padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = {
-            navController.navigate(NewsArticleScreen(article.url))
-        }
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(8.dp) ,
-            verticalAlignment = Alignment.CenterVertically
+fun ArticleItem(article: Article, navController: NavHostController) {
+    if (article.title != "[Removed]") {
+        Card(
+            modifier = Modifier.padding(8.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            onClick = {
+                navController.navigate(NewsArticleScreen(article.url))
+            }
         ) {
-            AsyncImage(model = article.urlToImage?:"https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
-                contentDescription = "Article Image",
-                modifier = Modifier.size(80.dp)
-                    .aspectRatio(1f),
-                contentScale = ContentScale.Crop
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                AsyncImage(
+                    model = article.urlToImage
+                        ?: "https://cdn-icons-png.flaticon.com/512/2748/2748558.png",
+                    contentDescription = "Article Image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .aspectRatio(1f),
+                    contentScale = ContentScale.Crop
                 )
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-                    .padding(start = 8.dp)
-            ) {
-                Text(article.title,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 3
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 8.dp)
+                ) {
+                    Text(
+                        article.title,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 3
                     )
 
-                Text(article.source.name,
-                    maxLines = 1,
-                    fontSize = 14.sp
-                )
+                    Text(
+                        article.source.name,
+                        maxLines = 1,
+                        fontSize = 14.sp
+                    )
+                }
             }
+
         }
     }
-
 }
 
 @Composable
@@ -132,7 +141,8 @@ fun CategoriesBar(newsViewModel: NewsViewModel) {
     ) {
         if (isSearchExpanded) {
             OutlinedTextField(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
+                    .padding(8.dp)
                     .height(48.dp)
                     .border(1.dp, Color.Gray, CircleShape)
                     .clip(CircleShape),
@@ -143,7 +153,7 @@ fun CategoriesBar(newsViewModel: NewsViewModel) {
                 trailingIcon = {
                     IconButton(onClick = {
                         isSearchExpanded = false
-                        if(searchQuery.isNotEmpty()){
+                        if (searchQuery.isNotEmpty()) {
                             newsViewModel.fetchEverythingWithQuery(searchQuery)
                         }
                     }) {
